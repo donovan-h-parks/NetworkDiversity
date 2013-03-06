@@ -1,0 +1,62 @@
+#nexus
+
+BEGIN Taxa;
+DIMENSIONS ntax=3;
+TAXLABELS
+[1] 'A'
+[2] 'B'
+[3] 'C'
+;
+END; [Taxa]
+
+BEGIN Trees;
+PROPERTIES rooted=yes;
+[TREES]
+[1] tree 't1'=[&R] (A:1.0,(B:1.0,C:1.0):1.0);
+END; [Trees]
+
+BEGIN Splits;
+DIMENSIONS ntax=3 nsplits=3;
+FORMAT labels=no weights=yes confidences=no intervals=no;
+PROPERTIES fit=-1.0 compatible;
+CYCLE 1 2 3;
+MATRIX
+[1, size=1] 	 2.0 	  1,
+[2, size=1] 	 1.0 	  1 3,
+[3, size=1] 	 1.0 	  1 2,
+;
+END; [Splits]
+
+BEGIN Network;
+DIMENSIONS ntax=3 nvertices=4 nedges=3;
+DRAW to_scale;
+TRANSLATE
+2 'A',
+3 'B',
+4 'C',
+;
+VERTICES
+1 -2.0 0.0 w=2 h=2 s=n,
+2 0.0 0.0 w=2 h=2 s=n,
+3 -2.5 0.8660254 w=2 h=2 s=n,
+4 -2.5 -0.8660254 w=2 h=2 s=n,
+;
+VLABELS
+2 'A' x=12 y=6 f='Dialog-PLAIN-10',
+3 'B' x=-9 y=21,
+4 'C' x=-9 y=-14,
+;
+EDGES
+1 1 2 s=1 w=2.0,
+2 1 3 s=2,
+3 1 4 s=3,
+;
+END; [Network]
+
+BEGIN st_Assumptions;
+uptodate;
+treestransform=TreeSelector;
+splitstransform=EqualAngle;
+SplitsPostProcess filter=dimension value=4;
+autolayoutnodelabels;
+END; [st_Assumptions]
